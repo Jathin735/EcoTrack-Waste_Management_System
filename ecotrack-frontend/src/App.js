@@ -8,7 +8,7 @@ import Register from './pages/Register';
 import Report from './pages/Report';
 import Dashboard from './pages/Dashboard';
 import SchedulePickup from './pages/SchedulePickup';
-
+import Home from './pages/Home';
 
 function App() {
   return (
@@ -18,12 +18,14 @@ function App() {
         <Notification />
         <div className="container mx-auto p-4">
           <Routes>
-            <Route path="/" element={<Login />} />
+            <Route path="/" element={<Home />} />
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
-            <Route path="/report" element={<Report />} />
+            <Route path="/report-waste" element={<Report />} />
             <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/schedule-pickup" element={<SchedulePickup />} />
+            {/* Catch-all route for 404 */}
+            <Route path="*" element={<h1>404 - Page Not Found</h1>} />
           </Routes>
         </div>
         <Footer />
