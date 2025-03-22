@@ -6,16 +6,24 @@ const SchedulePickup = () => {
   const [pickupDate, setPickupDate] = useState('');
   const [pickupTime, setPickupTime] = useState('');
   const [location, setLocation] = useState('');
+  const [message, setMessage] = useState('');
+  const [isError, setIsError] = useState(false);
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
       await axios.post('/pickups', { pickupDate, pickupTime, location });
-      alert('Pickup Scheduled Successfully!');
-      navigate('/');
+      setMessage('Pickup Scheduled Successfully!');
+      setIsError(false);
+      setTimeout(() => {
+        setMessage('');
+        navigate('/');
+      }, 3000);
     } catch (error) {
-      alert(error.response?.data?.message || 'Failed to schedule pickup');
+      setMessage(error.response?.data?.message || 'Failed to schedule pickup');
+      setIsError(true);
+      setTimeout(() => setMessage(''), 3000);
     }
   };
 
@@ -23,6 +31,10 @@ const SchedulePickup = () => {
     <div className="min-h-screen flex items-center justify-center bg-gray-100">
       <form onSubmit={handleSubmit} className="bg-white p-8 rounded-lg shadow-lg max-w-lg w-full">
         <h2 className="text-2xl font-bold mb-4">Schedule Waste Pickup</h2>
+
+        {message && (
+          <p className={`mb-4 text-center ${isError ? 'text-red-500' : 'text-green-500'}`}>{message}</p>
+        )}
 
         <label className="block mb-2">Select Date</label>
         <input
